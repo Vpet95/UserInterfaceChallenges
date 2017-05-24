@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Todoist Challenge</title>
+		
+		<!-- Metadata tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Khula:300,400,600,800|Raleway:300,400,600,800" rel="stylesheet">
+
+		<!-- JS --> 
+		<script src="js/main.js"></script>
+	</head>
+	<body>
+		<!-- the top menu bar of the app -->
+		<div class="menubar"></div>	
+
+		<!-- a container for the whole application UI -->
+		<div class="app-ui-container">
+			<!-- Left-half of the main UI - logo and the different groups -->
+			<div class="app-ui-left app-half">
+				<div class="app-logo-container">
+					<img class="app-logo" src="assets/logo.png" />
+				</div>
+				<div class="app-groups-container">
+					<!-- TO-DO items grouped based on timing categories -->
+					<div class="time-groups-container">
+						<div class="time-group time-group-selected" onclick="selectTimeGroup(0)">
+							<img class="time-group-icon time-group-content" src="assets/inbox.png" />
+							<p class="time-group-text time-group-content time-group-text-selected">Inbox</p>
+						</div>
+
+						<div class="time-group" onclick="selectTimeGroup(1)">
+							<img class="time-group-icon time-group-content" src="assets/calendar-empty.png" />
+							<p class="time-group-text time-group-content">Today</p>
+						</div>
+
+						<div class="time-group" onclick="selectTimeGroup(2)">
+							<img class="time-group-icon time-group-content" src="assets/calendar-seven.png" />
+							<p class="time-group-text time-group-content">Next 7 Days</p>
+						</div>
+					</div>
+
+					<!-- TO-DO items grouped based on different contexts -->
+					<div class="context-groups-container">
+						<div class="context-tabs-container">
+							<div class="context-tab context-tab-selected" onclick="changeContextTab(0)">Projects</div>
+							<div class="context-tab" onclick="changeContextTab(1)">Labels</div>
+							<div class="context-tab" onclick="changeContextTab(2)">Filters</div>
+						</div>
+
+						<div class="context-tab-content" id="projects-tab">
+							<!-- The content in here is generated dynamically by JavaScript -->	
+							<div class="add-project-container">
+								<img class="add-project-icon" src="assets/plus.png" />
+								<p class="add-project-text">Add Project</p>
+							</div>
+
+							<p class="archived-projects-text">Archived Projects</p>
+						</div>
+						<div class="context-tab-content context-tab-content-hidden" id="labels-tab">
+							<p>Labels</p>
+						</div>
+						<div class="context-tab-content context-tab-content-hidden" id="filters-tab">
+							<p>Filters</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right-half of the application - the todo list, search bar, and other functionality -->
+			<div class="app-ui-right app-half">
+				<div class="app-controls-container">
+					<div class="search-bar-container">
+						<img class="search-icon" src="assets/search.png" />
+						<input type="text" class="search-bar" placeholder="Quick Find" onfocus="toggleSearchBar(true)" onfocusout="toggleSearchBar(false)" />
+					</div>
+
+					<div class="control-buttons-container">
+						<img class="control-button settings-button" src="assets/settings.png" />
+
+						<div class="productivity-container">
+							<p class="productivity-number">100</p>
+							<img class="productivity-arrow" src="assets/up-arrow.png" />
+							<img class="productivity-button control-button" src="assets/place.png" />
+						</div>
+
+						<img class="notifications-button control-button" src="assets/bell.png" />
+						<img class="add-task-button control-button" src="assets/plus_white.png" />
+					</div>
+				</div>
+				<div class="app-todo-list-container">
+
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>
