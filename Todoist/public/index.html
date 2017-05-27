@@ -15,6 +15,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Khula:300,400,600,800|Raleway:300,400,600,800" rel="stylesheet">
 
 		<!-- JS --> 
+		<script src="js/utils.js"></script>
 		<script src="js/main.js"></script>
 	</head>
 	<body>
@@ -25,23 +26,23 @@
 		<div class="app-ui-container">
 			<!-- Left-half of the main UI - logo and the different groups -->
 			<div class="app-ui-left app-half">
-				<div class="app-logo-container">
+				<div class="app-logo-container" onclick="selectNoteCategory('time1')">
 					<img class="app-logo" src="assets/logo.png" />
 				</div>
 				<div class="app-groups-container">
 					<!-- TO-DO items grouped based on timing categories -->
 					<div class="time-groups-container">
-						<div class="time-group time-group-selected" onclick="selectTimeGroup(0)">
+						<div class="time-group time-group-selected noteCategory" data-id="time0" data-category-type="time" onclick="selectNoteCategory(this.getAttribute('data-id'))">
 							<img class="time-group-icon time-group-content" src="assets/inbox.png" />
 							<p class="time-group-text time-group-content time-group-text-selected">Inbox</p>
 						</div>
 
-						<div class="time-group" onclick="selectTimeGroup(1)">
+						<div class="time-group noteCategory" data-id="time1" data-category-type="time" onclick="selectNoteCategory(this.getAttribute('data-id'))">
 							<img class="time-group-icon time-group-content" src="assets/calendar-empty.png" />
 							<p class="time-group-text time-group-content">Today</p>
 						</div>
 
-						<div class="time-group" onclick="selectTimeGroup(2)">
+						<div class="time-group noteCategory" data-id="time2" data-category-type="time" onclick="selectNoteCategory(this.getAttribute('data-id'))">
 							<img class="time-group-icon time-group-content" src="assets/calendar-seven.png" />
 							<p class="time-group-text time-group-content">Next 7 Days</p>
 						</div>
@@ -92,14 +93,179 @@
 						</div>
 
 						<img class="notifications-button control-button" src="assets/bell.png" />
-						<img class="add-task-button control-button" src="assets/plus_white.png" />
+						<img id="add-task-button" class="control-button" src="assets/plus_white.png" />
+						<div class="popover-container" data-popover-for="add-task-button">
+							<div class="popover-triangle"></div>
+							<div class="popover-content">		
+								<p class="popover-title">Quick Add Task</p>
+								<p class="popover-subtitle">Open by typing q</p>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="app-todo-list-container">
+					<div data-content-for="time0" class="todo-list-content-container todo-list-content-container-selected" id="inbox-content-container">
+						<div class="todo-title-icons-container">
+							<p class="todo-title">Inbox</p>
+							<img id="project-actions-button1" class="todo-content-button" src="assets/actions.png" />
+							<div class="popover-container" data-popover-for="project-actions-button1">
+								<div class="popover-triangle"></div>
+								<div class="popover-content">		
+									<p class="popover-title">Project actions</p>
+								</div>
+							</div>
 
+							<img id="project-comments-button1" class="todo-content-button project-comments-button" src="assets/speech.png" />
+							<div class="popover-container" data-popover-for="project-comments-button1">
+								<div class="popover-triangle"></div>
+								<div class="popover-content">		
+									<p class="popover-title">Project comments</p>
+								</div>
+							</div>
+						</div>
+						<div class="add-todo-container">
+							<div class="add-todo-button">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+
+							<img id="show-archived-button1" class="show-archived-button" src="assets/refresh.png" />
+							<div class="popover-container" data-popover-for="show-archived-button1">
+								<div class="popover-triangle"></div>
+								<div class="popover-content">		
+									<p class="popover-title">Show archived tasks</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div data-content-for="time1" class="todo-list-content-container" id="today-content-container">
+						<div class="todo-title-icons-container">
+							<p class="todo-title">Today</p>
+							<p class="todo-date-text date-display" data-date-offset="0"></p>
+							<img id="project-actions-button2" class="todo-content-button" src="assets/actions.png" />
+							<div class="popover-container" data-popover-for="project-actions-button2">
+								<div class="popover-triangle"></div>
+								<div class="popover-content">		
+									<p class="popover-title">Actions</p>
+								</div>
+							</div>
+						</div>
+						<div class="add-todo-container">
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+							<div class="no-tasks-container">
+								<img class="no-tasks-image" src="assets/today-img.png" />
+								<p class="no-tasks-title">No tasks for today.</p>
+								<p class="no-tasks-subtitle">Enjoy your afternoon.</p>
+							</div>
+						</div>
+					</div>
+
+					<div data-content-for="time2" class="todo-list-content-container" id="seven-content-container">
+						<div class="todo-title-icons-container">
+							<p class="todo-title todo-title-no-hover">Next 7 days</p>
+							<img id="project-actions-button3" class="todo-content-button" src="assets/actions.png" />
+							<div class="popover-container" data-popover-for="project-actions-button3">
+								<div class="popover-triangle"></div>
+								<div class="popover-content">		
+									<p class="popover-title">Actions</p>
+								</div>
+							</div>
+						</div>
+						<div class="add-todo-container">
+							<div class="day-section-container">
+								<p class="day-section-title">Today</p>
+								<p class="todo-date-text date-display" data-date-offset="0"></p>
+								<hr class="day-section-divider" />
+							</div>
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+							<div class="no-tasks-container">
+								<img class="no-tasks-image" src="assets/today-img.png" />
+								<p class="no-tasks-title">No tasks for today.</p>
+								<p class="no-tasks-subtitle">Enjoy your afternoon.</p>
+							</div>
+						</div>
+
+						<div class="add-todo-container seven-days-container">
+							<div class="day-section-container">
+								<p class="day-section-title">Tomorrow</p>
+								<p class="todo-date-text date-display" data-date-offset="1"></p>
+								<hr class="day-section-divider" />
+							</div>
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+						</div>
+
+						<div class="add-todo-container seven-days-container">
+							<div class="day-section-container">
+								<p class="day-section-title day-display" data-date-offset="2"></p>
+								<p class="todo-date-text date-display" data-date-offset="2"></p>
+								<hr class="day-section-divider" />
+							</div>
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+						</div>
+
+						<div class="add-todo-container seven-days-container">
+							<div class="day-section-container">
+								<p class="day-section-title day-display" data-date-offset="3"></p>
+								<p class="todo-date-text date-display" data-date-offset="3"></p>
+								<hr class="day-section-divider" />
+							</div>
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+						</div>
+
+						<div class="add-todo-container seven-days-container">
+							<div class="day-section-container">
+								<p class="day-section-title day-display" data-date-offset="4"></p>
+								<p class="todo-date-text date-display" data-date-offset="4"></p>
+								<hr class="day-section-divider" />
+							</div>
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+						</div>
+
+						<div class="add-todo-container seven-days-container">
+							<div class="day-section-container">
+								<p class="day-section-title day-display" data-date-offset="5"></p>
+								<p class="todo-date-text date-display" data-date-offset="5"></p>
+								<hr class="day-section-divider" />
+							</div>
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+						</div>
+
+						<div class="add-todo-container seven-days-container" style="margin-bottom: 100px;">
+							<div class="day-section-container">
+								<p class="day-section-title day-display" data-date-offset="6"></p>
+								<p class="todo-date-text date-display" data-date-offset="6"></p>
+								<hr class="day-section-divider" />
+							</div>
+							<div class="add-todo-button translucency-hover">
+								<img class="add-todo-icon" src="assets/plus.png" />
+								<p class="add-todo-text">Add Task</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		
 	</body>
 </html>

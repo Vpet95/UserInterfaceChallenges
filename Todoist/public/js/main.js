@@ -2,36 +2,36 @@
 /* 
 	I put all my global variables at the top; these serve to help define the application state 
 */
-var currentTabIndex = 0, currentTimeGroupIndex = 0, selectedProjectId = 0;
+var currentTabIndex = 0;
 
 /* This is the type of thing you would load from a database via a RESTful API */
 var projectList = [
 	{
-		id: 1,
+		id: "project1",
 		title: "Personal",
 		numItems: 1,
 		color: "red"
 	},
 	{
-		id: 2,
+		id: "project2",
 		title: "Shopping",
 		numItems: 3,
 		color: "gray"
 	},
 	{
-		id: 3,
+		id: "project3",
 		title: "Work",
 		numItems: 0,
 		color: "blue"
 	},
 	{
-		id: 4,
+		id: "project4",
 		title: "Errands",
 		numItems: 5,
 		color: "teal"
 	},
 	{
-		id: 5,
+		id: "project5",
 		title: "Movies to Watch",
 		numItems: 0,
 		color: "purple"
@@ -58,26 +58,54 @@ window.onload = function() {
 		which return structured data like XML or JSON which you then use to generate your UI
 	*/
 	generateProjects();
+
+	/* popovers need to be positioned in the page poperly which needs to be done programatically */
+	initializePopovers();
+
+	/* some to-do items have dates at different offsets from the current day, so I'll initialize their text content here */
+	initializeDateTexts();
+
+	/* the day names in the 'next 7 days' tab dynamically update based on the current date, this initializes them */
+	initializeDayTexts();
 }
 
-function selectTimeGroup(idx) {
-	if(currentTimeGroupIndex == idx) return;
+function selectNoteCategory(id) {
+	var noteCategories = document.getElementsByClassName('noteCategory');
 
-	var timeGroups = document.getElementsByClassName('time-group');
-	for(var i = 0; i < timeGroups.length; i++) {
-		var timeGroup = timeGroups[i];
-		var timeGroupText = timeGroup.querySelector('p');
+	for(var i = 0; i < noteCategories.length; i++) {
+		var content = noteCategories[i].querySelector('.project-item-content');
+		var title = noteCategories[i].querySelector('.project-item-title');
+		var timeGroupText = noteCategories[i].querySelector('p');
 
-		if(i != idx) {
-			timeGroup.className = "time-group";
-			timeGroupText.className = "time-group-text time-group-content";
+		if(noteCategories[i].getAttribute('data-id') == id) {
+			if(noteCategories[i].getAttribute('data-category-type') == 'time') {
+				noteCategories[i].className = "time-group time-group-selected noteCategory";
+				timeGroupText.className = "time-group-text time-group-content time-group-text-selected";
+			} else {
+				content.className = "project-item-content project-item-content-selected";
+				title.className = "project-item-title project-item-title-selected";
+			}
 		} else {
-			timeGroup.className = "time-group time-group-selected";
-			timeGroupText.className = "time-group-text time-group-content time-group-text-selected";
+			if(noteCategories[i].getAttribute('data-category-type') == 'time') {
+				noteCategories[i].className = "time-group noteCategory";
+				timeGroupText.className = "time-group-text time-group-content";
+			} else {
+				content.className = "project-item-content";
+				title.className = "project-item-title";
+			}
 		}
 	}
 
-	currentTimeGroupIndex = idx;
+	var noteCategoryContents = document.getElementsByClassName('todo-list-content-container');
+	for(var i = 0; i < noteCategoryContents.length; i++) {
+		var noteContent = noteCategoryContents[i];
+
+		if(noteContent.getAttribute('data-content-for') == id) {
+			noteContent.className = "todo-list-content-container todo-list-content-container-selected";
+		} else {
+			noteContent.className = "todo-list-content-container";
+		}
+	}
 }
 
 function changeContextTab(idx) {
@@ -99,27 +127,54 @@ function changeContextTab(idx) {
 	currentTabIndex = idx;
 }
 
-function selectProject(id) {
-	if(selectedProjectId == id) return;
+/* 
+	todo: generate all of the project content pages for each tab; below is what the html looks like;
 
-	var projects = document.getElementsByClassName('project-item');
+	all project content pages are to be appended to the 'app-todo-list-container' node 
 
-	for(var i = 0; i < projects.length; i++) {
-		var project = projects[i];
-		var content = project.querySelector('.project-item-content');
-		var title = project.querySelector('.project-item-title');
+	<div data-content-for="0" class="todo-list-content-container todo-list-content-container-selected">
+		<div class="todo-title-icons-container">
+			<p class="todo-title">Personal</p>
+			<img id="project-actions-button4" class="todo-content-button" src="assets/actions.png" />
+			<div class="popover-container" data-popover-for="project-actions-button4">
+				<div class="popover-triangle"></div>
+				<div class="popover-content">		
+					<p class="popover-title">Project actions</p>
+				</div>
+			</div>
 
-		if(project.getAttribute("data-id") != id) {
-			content.className = "project-item-content";
-			title.className = "project-item-title";
-		} else {
-			content.className = "project-item-content project-item-content-selected";
-			title.className = "project-item-title project-item-title-selected";
-		}
-	}
+			<img id="share-options-button1" class="todo-content-button share-options-button" src="assets/add-user.png" />
+			<div class="popover-container" data-popover-for="share-options-button1">
+				<div class="popover-triangle"></div>
+				<div class="popover-content">		
+					<p class="popover-title">Share options</p>
+				</div>
+			</div>
 
-	selectedProjectId = id;
-}
+			<img id="project-comments-button4" class="todo-content-button project-comments-button" src="assets/speech.png" />
+			<div class="popover-container" data-popover-for="project-comments-button4">
+				<div class="popover-triangle"></div>
+				<div class="popover-content">		
+					<p class="popover-title">Project comments</p>
+				</div>
+			</div>
+		</div>
+		<div class="add-todo-container">
+			<div class="add-todo-button">
+				<img class="add-todo-icon" src="assets/plus.png" />
+				<p class="add-todo-text">Add Task</p>
+			</div>
+
+			<img id="show-archived-button4" class="show-archived-button" src="assets/refresh.png" />
+			<div class="popover-container" data-popover-for="show-archived-button4">
+				<div class="popover-triangle"></div>
+				<div class="popover-content">		
+					<p class="popover-title">Show archived tasks</p>
+				</div>
+			</div>
+		</div>
+	</div>
+*/
 
 function generateProjects() {
 	var projectsTab = document.getElementById('projects-tab');
@@ -130,7 +185,8 @@ function generateProjects() {
 
 		var projectWrapper = document.createElement('div');
 		projectWrapper.setAttribute('data-id', project.id);
-		projectWrapper.className = "project-item";
+		projectWrapper.setAttribute('data-category-type', 'project');
+		projectWrapper.className = "project-item noteCategory";
 
 		/* */
 		addProjectSelectListener(projectWrapper, project.id);
@@ -141,7 +197,7 @@ function generateProjects() {
 		projectWrapper.appendChild(dragButton);
 
 		var projectContentWrapper = document.createElement('div');
-		projectContentWrapper.className = "project-item-content" + (i == 0 ? " project-item-content-selected" : "");
+		projectContentWrapper.className = "project-item-content";
 		projectWrapper.appendChild(projectContentWrapper);
 
 		var projectContentIcon = document.createElement('div');
@@ -151,7 +207,7 @@ function generateProjects() {
 
 		var projectContentTitle = document.createElement('p');
 		projectContentTitle.textContent = project.title;
-		projectContentTitle.className = "project-item-title" + (i == 0 ? " project-item-title-selected" : "");
+		projectContentTitle.className = "project-item-title";
 		projectContentWrapper.appendChild(projectContentTitle);
 
 		var projectContentNumber = document.createElement('p');
@@ -170,7 +226,7 @@ function generateProjects() {
 
 function addProjectSelectListener(elem, id) {
 	elem.addEventListener('click', function() {
-		selectProject(id);
+		selectNoteCategory(id);
 	});
 }
 
@@ -193,6 +249,70 @@ function toggleSearchBar(grow) {
 	}
 }
 
+function initializePopovers() {
+	var popovers = document.getElementsByClassName('popover-container');
+
+	for(var i = 0; i < popovers.length; i++) {
+		var popover = popovers[i];
+		var popoverTarget = document.getElementById(popover.getAttribute('data-popover-for'));
+
+		addPopoverListeners(popoverTarget, popover);
+	}
+}
+
+function addPopoverListeners(tgt, pop) {
+	tgt.addEventListener('mouseenter', function() {
+		pop.style.top = tgt.offsetTop + tgt.offsetHeight + 3 + "px";
+		pop.style.display = "inline-block";
+
+		if(window.outerWidth < tgt.offsetLeft + pop.offsetWidth) {
+			pop.style.left = tgt.offsetLeft - pop.offsetWidth + 23 + "px";
+			pop.querySelector('.popover-triangle').style.marginLeft = pop.offsetWidth - 24 + "px";
+		} else {
+			pop.style.left = tgt.offsetLeft - 11 + "px";
+			pop.querySelector('.popover-triangle').style.marginLeft = "12px";
+		}
+
+		setTimeout(function() {
+			pop.style.opacity = 1;
+		}, 0);
+	});
+
+	tgt.addEventListener('mouseleave', function() {
+		pop.style.opacity = 0;
+		setTimeout(function() {
+			pop.style.display = 'none';
+		}, 250);
+	});	
+}
+
+function initializeDateTexts() {
+	var dateTexts = document.getElementsByClassName('date-display');
+
+	for(var i = 0; i < dateTexts.length; i++) {
+		var date = dateTexts[i];
+		var offset = parseInt(date.getAttribute('data-date-offset')); // in days 
+
+		var theDate = new Date();
+		theDate.setTime(theDate.getTime() + (offset * 24 * 60 * 60 * 1000));
+
+		date.textContent = DAYS_SHORTHAND[theDate.getDay()] + " " + MONTHS_SHORTHAND[theDate.getMonth()] + " " + theDate.getDate();
+	}
+}
+
+function initializeDayTexts() {
+	var dayTexts = document.getElementsByClassName('day-display');
+
+	for(var i = 0; i < dayTexts.length; i++) {
+		var day = dayTexts[i];
+		var offset = parseInt(day.getAttribute('data-date-offset')); // in days 
+
+		var theDate = new Date();
+		theDate.setTime(theDate.getTime() + (offset * 24 * 60 * 60 * 1000));
+
+		day.textContent = DAYS[theDate.getDay()];
+	}
+}
 
 
 

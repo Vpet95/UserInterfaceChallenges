@@ -94,6 +94,7 @@ html, body {
 .app-logo-container {
 	width: 100%;
 	height: 50px;
+	cursor: pointer;
 }
 
 .app-logo {
@@ -116,10 +117,11 @@ html, body {
 
 .app-todo-list-container {
 	width: calc(100% - 2px); /* CSS can perform dynamic calculations like this */
-	height: calc(100% - 50px);
+	min-height: calc(100% - 50px);
 	background-color: var(--secondary-application-background-color);
 	border-left: 1px solid var(--application-border-color);
 	border-right: 1px solid var(--application-border-color);
+	padding-top: 30px;
 }
 
 .time-groups-container {
@@ -450,7 +452,230 @@ html, body {
 	margin-right: 7px;
 }
 
+/* RIGHT HALF OF THE APP, MAIN CONTENT AREA */
 
+.todo-list-content-container {
+	display: none !important;
+
+	width: 90%;
+	display: block;
+	margin: 0 auto;
+
+	padding: 10px 3px;
+}
+
+.todo-list-content-container-selected {
+	display: block !important;
+}
+
+.todo-title-icons-container {
+	width: 100%;
+	display: inline-block;
+}
+
+.todo-title {
+	font-family: var(--secondary-app-font);
+	color: var(--title-text-color);
+	font-size: 130%;
+	line-height: 10px;
+	display: inline-block;
+	border-bottom: 1.5px solid transparent;
+
+	cursor: pointer;
+}
+
+.todo-title:hover {
+	border-bottom-color: var(--title-text-color);
+}	
+
+.todo-title-no-hover {
+	cursor: text;
+}
+
+.todo-title-no-hover:hover {
+	border-bottom-color: transparent !important;
+}
+
+.todo-date-text {
+	display: inline;
+	font-family: var(--secondary-app-font);
+	color: var(--content-text-color);
+	font-weight: lighter;
+    font-size: 75%;
+    margin-left: 3px;
+}
+
+.todo-content-button {
+	float: right;
+	width: 15px;
+	cursor: pointer;
+
+	opacity: 0.35;
+}
+
+.todo-content-button:hover {
+	opacity: 1;
+}
+
+.project-comments-button {
+	margin-right: 30px;
+}
+
+.share-options-button {
+	margin-right: 30px;
+}
+
+.add-todo-container {
+	width: 100%;
+	display: inline-block;
+	margin-top: 22px;
+}
+
+.add-todo-container:hover .add-todo-button {
+	opacity: 1;
+}
+
+.seven-days-container {
+	margin-top: 45px;
+}
+
+.add-todo-button {
+	display: inline-block;
+	cursor: pointer;
+	margin-left: 3px;
+}
+
+.add-todo-button:hover .add-todo-text {
+	text-decoration: underline;
+}
+
+.add-todo-icon {
+	width: 11px;
+	margin-right: 15px;
+	float: left;
+}
+
+.add-todo-text {
+	color: var(--primary-application-color);
+	font-family: var(--secondary-app-font);
+	float: left;
+	font-weight: lighter;
+    font-size: 90%;
+    margin-top: 3px;
+}
+
+.show-archived-button {
+	cursor: pointer;
+	width: 15px;
+	opacity: 0.35;
+	float: right;
+}
+
+.show-archived-button:hover {
+	opacity: 1;
+}
+
+.no-tasks-container {
+	width: 100%;
+	display: inline-block;
+	margin-top: 30px;
+	text-align: center;
+}
+
+.no-tasks-image {
+	width: 38%;
+	margin-bottom: 15px;
+}
+
+.no-tasks-title {
+	font-family: var(--secondary-app-font);
+	color: var(--title-text-color);
+	font-size: 140%;
+    margin-bottom: 15px;
+}
+
+.no-tasks-subtitle {
+	font-family: var(--secondary-app-font);
+	color: var(--title-text-color);
+}
+
+.day-section-container {
+	width: 100%;
+	display: inline-block;
+}
+
+.day-section-title {
+	font-family: var(--secondary-app-font);
+	color: var(--title-text-color);
+	font-size: 90%;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.day-section-title:hover {
+	text-decoration: underline;
+}
+
+.day-section-divider {
+	opacity: 0.3;
+}
+
+/* POPOVER STYLINGS */
+
+.popover-container {
+	display: none;
+	opacity: 0;
+
+	position: fixed;
+
+	transition: opacity 0.2s ease;
+	-webkit-transition: opacity 0.2s ease
+}
+
+.popover-content {
+	background-color: #333333;
+	padding: 8px 12px;
+	border-radius: 3px;
+}
+
+.popover-title {
+	font-family: var(--secondary-app-font);
+	color: #f7f6f7;
+	font-size: 78%;
+}
+
+.popover-subtitle {
+	font-family: var(--secondary-app-font);
+	color: #f7f6f7;
+	font-size: 78%;
+    margin-top: 2px;
+    font-weight: lighter;
+}
+
+.popover-triangle {
+	width: 0; 
+	height: 0; 
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 7px solid #333333;
+
+	margin-bottom: -2px;
+	margin-left: 12px;
+}
+
+/* special style for any item that needs to be translucent until hovered over */
+
+.translucency-hover {
+	opacity: 0.5;
+
+	transition: opacity 0.3s ease;
+	-webkit-transition: opacity 0.3s ease;
+}
+
+.translucency-hover:hover {
+	opacity: 1;
+}
 
 
 
