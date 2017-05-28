@@ -127,55 +127,6 @@ function changeContextTab(idx) {
 	currentTabIndex = idx;
 }
 
-/* 
-	todo: generate all of the project content pages for each tab; below is what the html looks like;
-
-	all project content pages are to be appended to the 'app-todo-list-container' node 
-
-	<div data-content-for="0" class="todo-list-content-container todo-list-content-container-selected">
-		<div class="todo-title-icons-container">
-			<p class="todo-title">Personal</p>
-			<img id="project-actions-button4" class="todo-content-button" src="assets/actions.png" />
-			<div class="popover-container" data-popover-for="project-actions-button4">
-				<div class="popover-triangle"></div>
-				<div class="popover-content">		
-					<p class="popover-title">Project actions</p>
-				</div>
-			</div>
-
-			<img id="share-options-button1" class="todo-content-button share-options-button" src="assets/add-user.png" />
-			<div class="popover-container" data-popover-for="share-options-button1">
-				<div class="popover-triangle"></div>
-				<div class="popover-content">		
-					<p class="popover-title">Share options</p>
-				</div>
-			</div>
-
-			<img id="project-comments-button4" class="todo-content-button project-comments-button" src="assets/speech.png" />
-			<div class="popover-container" data-popover-for="project-comments-button4">
-				<div class="popover-triangle"></div>
-				<div class="popover-content">		
-					<p class="popover-title">Project comments</p>
-				</div>
-			</div>
-		</div>
-		<div class="add-todo-container">
-			<div class="add-todo-button">
-				<img class="add-todo-icon" src="assets/plus.png" />
-				<p class="add-todo-text">Add Task</p>
-			</div>
-
-			<img id="show-archived-button4" class="show-archived-button" src="assets/refresh.png" />
-			<div class="popover-container" data-popover-for="show-archived-button4">
-				<div class="popover-triangle"></div>
-				<div class="popover-content">		
-					<p class="popover-title">Show archived tasks</p>
-				</div>
-			</div>
-		</div>
-	</div>
-*/
-
 function generateProjects() {
 	var projectsTab = document.getElementById('projects-tab');
 	var addProjectContainer = document.getElementsByClassName('add-project-container')[0];
@@ -221,7 +172,152 @@ function generateProjects() {
 		projectContentWrapper.appendChild(dropDown);
 
 		projectsTab.insertBefore(projectWrapper, addProjectContainer);
+
+		generateProjectContentPage(project);
 	}
+}
+
+function generateProjectContentPage(project) {
+	var todoContentContainer = document.getElementsByClassName('app-todo-list-container')[0];
+
+	// the overall project content container 
+	var contentContainer = document.createElement('div');
+	contentContainer.className = "todo-list-content-container";
+	contentContainer.setAttribute('data-content-for', project.id);
+	todoContentContainer.appendChild(contentContainer);
+
+	// container for the project title and icons 
+	var titleIconsContainer = document.createElement('div');
+	titleIconsContainer.className = "todo-title-icons-container";
+	contentContainer.appendChild(titleIconsContainer);
+
+	// todo title and action button 
+	var todoTitle = document.createElement('p');
+	todoTitle.textContent = project.title;
+	todoTitle.className = "todo-title";
+	titleIconsContainer.appendChild(todoTitle);
+
+	var actionButton = document.createElement('img');
+	actionButton.className = "todo-content-button";
+	actionButton.src = "assets/actions.png";
+	actionButton.id = "projectAction" + project.id;
+	titleIconsContainer.appendChild(actionButton);
+
+	// popover 
+	var actionButtonPopover = document.createElement('div');
+	actionButtonPopover.className = "popover-container";
+	actionButtonPopover.setAttribute('data-popover-for', 'projectAction' + project.id);
+	titleIconsContainer.appendChild(actionButtonPopover);
+
+	var actionPopoverTriangle = document.createElement('div');
+	actionPopoverTriangle.className = "popover-triangle";
+	actionButtonPopover.appendChild(actionPopoverTriangle);
+
+	var popoverActionContent = document.createElement('div');
+	popoverActionContent.className = "popover-content";
+	actionButtonPopover.appendChild(popoverActionContent);
+
+	var popoverActionTitle = document.createElement('p');
+	popoverActionTitle.className = "popover-title";
+	popoverActionTitle.textContent = "Project actions";
+	popoverActionContent.appendChild(popoverActionTitle);
+
+	// share button 
+	var shareButton = document.createElement('img');
+	shareButton.className = "todo-content-button share-options-button";
+	shareButton.src = "assets/add-user.png";
+	shareButton.id = "projectShare" + project.id;
+	titleIconsContainer.appendChild(shareButton);
+
+	// popover 
+	var shareButtonPopover = document.createElement('div');
+	shareButtonPopover.className = "popover-container";
+	shareButtonPopover.setAttribute('data-popover-for', 'projectShare' + project.id);
+	titleIconsContainer.appendChild(shareButtonPopover);
+
+	var sharePopoverTriangle = document.createElement('div');
+	sharePopoverTriangle.className = "popover-triangle";
+	shareButtonPopover.appendChild(sharePopoverTriangle);
+
+	var popoverShareContent = document.createElement('div');
+	popoverShareContent.className = "popover-content";
+	shareButtonPopover.appendChild(popoverShareContent);
+
+	var popoverShareTitle = document.createElement('p');
+	popoverShareTitle.className = "popover-title";
+	popoverShareTitle.textContent = "Share options";
+	popoverShareContent.appendChild(popoverShareTitle); 
+
+	// comments button 
+	var commentsButton = document.createElement('img');
+	commentsButton.className = "todo-content-button project-comments-button";
+	commentsButton.src = "assets/speech.png";
+	commentsButton.id = "projectComment" + project.id;
+	titleIconsContainer.appendChild(commentsButton);
+
+	// popover 
+	var commentButtonPopover = document.createElement('div');
+	commentButtonPopover.className = "popover-container";
+	commentButtonPopover.setAttribute('data-popover-for', 'projectComment' + project.id);
+	titleIconsContainer.appendChild(commentButtonPopover);
+
+	var commentPopoverTriangle = document.createElement('div');
+	commentPopoverTriangle.className = "popover-triangle";
+	commentButtonPopover.appendChild(commentPopoverTriangle);
+
+	var popoverCommentContent = document.createElement('div');
+	popoverCommentContent.className = "popover-content";
+	commentButtonPopover.appendChild(popoverCommentContent);
+
+	var popoverCommentTitle = document.createElement('p');
+	popoverCommentTitle.className = "popover-title";
+	popoverCommentTitle.textContent = "Project comments";
+	popoverCommentContent.appendChild(popoverCommentTitle); 
+
+	// the container for the to-do section of the content 
+	var addTodoContainer = document.createElement('div');
+	addTodoContainer.className = "add-todo-container";
+	contentContainer.appendChild(addTodoContainer);
+
+	var addTodoButton = document.createElement('div');
+	addTodoButton.className = "add-todo-button";
+	addTodoContainer.appendChild(addTodoButton);
+
+	var addTodoIcon = document.createElement('img');
+	addTodoIcon.src = "assets/plus.png"; 
+	addTodoIcon.className = "add-todo-icon";
+	addTodoContainer.appendChild(addTodoIcon);
+
+	var addTodoText = document.createElement('p');
+	addTodoText.className = "add-todo-text";
+	addTodoText.textContent = "Add Task";
+	addTodoContainer.appendChild(addTodoText);
+
+	// the show archived tasks button 
+	var archivedButton = document.createElement('img');
+	archivedButton.className = "show-archived-button";
+	archivedButton.id = "archived" + project.id;
+	archivedButton.src = "assets/refresh.png";
+	addTodoContainer.appendChild(archivedButton);
+
+	// popover 
+	var archivedButtonPopover = document.createElement('div');
+	archivedButtonPopover.className = "popover-container";
+	archivedButtonPopover.setAttribute('data-popover-for', 'archived' + project.id);
+	addTodoContainer.appendChild(archivedButtonPopover);
+
+	var archivedPopoverTriangle = document.createElement('div');
+	archivedPopoverTriangle.className = "popover-triangle";
+	archivedButtonPopover.appendChild(archivedPopoverTriangle);
+
+	var popoverArchivedContent = document.createElement('div');
+	popoverArchivedContent.className = "popover-content";
+	archivedButtonPopover.appendChild(popoverArchivedContent);
+
+	var popoverArchivedTitle = document.createElement('p');
+	popoverArchivedTitle.className = "popover-title";
+	popoverArchivedTitle.textContent = "Show archived tasks";
+	popoverArchivedContent.appendChild(popoverArchivedTitle); 
 }
 
 function addProjectSelectListener(elem, id) {
