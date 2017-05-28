@@ -1,5 +1,5 @@
 
-# Todoist - not finished yet 
+# Todoist
 
 This is an awesome to-do list application with many great features including a super sexy UI; here is the actual software:
 
