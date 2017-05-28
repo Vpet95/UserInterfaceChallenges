@@ -286,12 +286,12 @@ function generateProjectContentPage(project) {
 	var addTodoIcon = document.createElement('img');
 	addTodoIcon.src = "assets/plus.png"; 
 	addTodoIcon.className = "add-todo-icon";
-	addTodoContainer.appendChild(addTodoIcon);
+	addTodoButton.appendChild(addTodoIcon);
 
 	var addTodoText = document.createElement('p');
 	addTodoText.className = "add-todo-text";
 	addTodoText.textContent = "Add Task";
-	addTodoContainer.appendChild(addTodoText);
+	addTodoButton.appendChild(addTodoText);
 
 	// the show archived tasks button 
 	var archivedButton = document.createElement('img');

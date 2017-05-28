@@ -621,13 +621,19 @@ html, body {
 	opacity: 0.3;
 }
 
+.unimplementedTabText {
+	text-align: center;
+	color: var(--content-text-color);
+	font-family: var(--secondary-app-font);
+}
+
 /* POPOVER STYLINGS */
 
 .popover-container {
 	display: none;
 	opacity: 0;
 
-	position: fixed;
+	position: absolute;
 
 	transition: opacity 0.2s ease;
 	-webkit-transition: opacity 0.2s ease
