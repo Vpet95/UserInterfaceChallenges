@@ -3,4 +3,4 @@ This one doesn't need too many introductions... It's Facebook. I've gotten bored
 
 This is what I've come up with using vanila CSS and JS:
 
-[facebook](./screenshots/facebook.png)
+![facebook](./screenshots/facebook.png)
